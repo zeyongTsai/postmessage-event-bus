@@ -3,7 +3,20 @@
  * @Date: 2019-11-06 16:46:43
  * @Description: 基于 postmessage 的 事件总线实现，通过window.top 在各个子窗口间发送消息
  */
-;(function (window, document, unde) {
+;(function moduleDefinition(root, factory) {
+    var $ = 'CreatePostMessageEventBus'; // 自定义模块名
+
+    if ('object' === typeof exports && 'object' === typeof module) {
+        module.exports[$] = factory(); // 兼容 CommonJS
+    } else if ('function' === typeof define && (define.amd || define.cmd)) {
+        define(factory); // 兼容 AMD/CMD
+    } else if ('object' === typeof exports) {
+        exports[$] = factory();
+    } else if (root) {
+        root[$] = factory();
+    }
+})(this, (function () {
+    'use strict';
     var instanceObj
     function CreatePostMessageEventBus (options) {
         if (instanceObj) {
@@ -13,7 +26,6 @@
         instanceObj.init()
         return instanceObj
     }
-    window.CreatePostMessageEventBus = CreatePostMessageEventBus
 
     function PostMessageEventBus (options) {
         this.options = options
@@ -92,15 +104,6 @@
     PostMessageEventBus.prototype.send = function (data) {
         this.postMessageCenter.send(window.top, new this.postMessageCenter.EventData('PUSH', data))
     }
-    // 事件监听
-    PostMessageEventBus.prototype.on = function (eventName, callback) {
-        this.observer.on(eventName, callback)
-    }
-    // 事件派发
-    PostMessageEventBus.prototype.emit = function (eventName, data) {
-        this.observer.emit(eventName, callback)
-    }
-
     // post message 事件处理
     function PostMessageCenter () {
         this.watch = function (fn) {
@@ -136,4 +139,5 @@
         this.origin = origin
         this.source = source
     }
-})(window, document, undefined);
+    return CreatePostMessageEventBus
+}));

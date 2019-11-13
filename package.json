@@ -8,6 +8,7 @@
     "url": "git+https://github.com/zeyongTsai/postmessage-event-bus.git"
   },
   "scripts": {
+    "build": "node ./node_modules/.bin/uglifyjs eventBus.js -c -m -o eventBus.min.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -16,5 +17,8 @@
     "message"
   ],
   "author": "zeyong.tsai",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "uglify-js": "^3.6.9"
+  }
 }
