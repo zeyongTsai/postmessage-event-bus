@@ -1,0 +1,20 @@
+{
+  "name": "postmessage-event-bus",
+  "version": "0.0.1",
+  "description": "event bus based on post message",
+  "main": "eventBus.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zeyongTsai/postmessage-event-bus.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "event",
+    "bus/post",
+    "message"
+  ],
+  "author": "zeyong.tsai",
+  "license": "MIT"
+}

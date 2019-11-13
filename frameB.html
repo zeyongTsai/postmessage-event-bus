@@ -1,0 +1,54 @@
+<!--
+ * @Author: caizeyong
+ * @Date: 2019-11-06 16:45:01
+ * @Description: 
+ -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>frame b</title>
+</head>
+<body>
+    sum: <span id="j_sum"></span>
+    <button id="j_increase">add</button>
+    <button id="j_decrease">reduce</button>
+        <script src="./eventBus.js"></script>
+        <script>
+            var registed = false
+            var inc = document.querySelector('#j_increase')
+            var dec = document.querySelector('#j_decrease')
+            var sum = document.querySelector('#j_sum')
+            CreatePostMessageEventBus({
+                success: function () {
+                    registed = true
+                    console.log('注册成功')
+                    var that = this
+                    inc.addEventListener('click', function () {
+                        that.send({
+                            name: 'increase'
+                        })
+                    })
+                    dec.addEventListener('click', function () {
+                        that.send({
+                            name: 'decrease'
+                        })
+                    })
+                },
+                receive: function (data) {
+                    console.log('接收到数据', data)
+                    if (data.name === 'change') {
+                        sum.innerText = data.sum
+                    }
+                },
+                request: function (cmd) {
+                    console.log('要求派发事件', cmd)
+                },
+                emit: ['increase', 'decrease'],
+                on: ['change']
+            })
+        </script>
+</body>
+</html>

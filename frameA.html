@@ -1,0 +1,49 @@
+<!--
+ * @Author: caizeyong
+ * @Date: 2019-11-06 16:44:54
+ * @Description: 
+ -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>frame a</title>
+</head>
+<body>
+    Frame A: <input type="text" id="j_input" value="1">
+        <script src="./eventBus.js"></script>
+        <script>
+            var registed = false
+            var ipt = document.querySelector('#j_input')
+            CreatePostMessageEventBus({
+                success: function () {
+                    registed = true
+                    console.log('注册成功')
+                },
+                receive: function (data) {
+                    console.log('接收到数据', data)
+                    if (data.name === 'increase') {
+                        ipt.value = ipt.value*1 + 1
+                    } else if (data.name === 'decrease') {
+                        ipt.value = ipt.value*1 - 1
+                    }
+                    this.send({
+                        name: 'change',
+                        sum: ipt.value
+                    })
+                },
+                request: function (cmd) {
+                    console.log('要求派发事件', cmd)
+                    this.send({
+                        name: 'change',
+                        sum: ipt.value
+                    })
+                },
+                on: ['increase', 'decrease'],
+                emit: ['change']
+            })
+        </script>
+</body>
+</html>

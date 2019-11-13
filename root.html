@@ -1,0 +1,42 @@
+<!--
+ * @Author: caizeyong
+ * @Date: 2019-11-06 16:44:45
+ * @Description: 
+ -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Root</title>
+</head>
+<body>
+    <iframe src="./frameA.html" frameborder="0"></iframe>
+    <iframe src="./frameB.html" frameborder="0"></iframe>
+    <button id="btn">load frame c</button>
+    <script src="./eventBus.js"></script>
+    <script>
+        var registed = false
+        CreatePostMessageEventBus({
+            success: function () {
+                registed = true
+                console.log('注册成功')
+            },
+            receive: function (data) {
+                console.log('接收到数据', data)
+            },
+            request: function (cmd) {
+                console.log('要求派发事件', cmd)
+            }
+        })
+
+
+        document.querySelector('#btn').addEventListener('click', function () {
+            var frame = document.createElement('iframe')
+            frame.src = './frameC.html'
+            document.body.appendChild(frame)
+        })
+    </script>
+</body>
+</html>

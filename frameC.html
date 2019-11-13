@@ -1,0 +1,39 @@
+<!--
+ * @Author: caizeyong
+ * @Date: 2019-11-06 16:45:07
+ * @Description: 
+ -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>frame c</title>
+</head>
+<body>
+    <div>
+        dynamic load page and get data from other page: <span id="j_sum"></span>
+    </div>
+        <script src="./eventBus.js"></script>
+        <script>
+            var registed = false
+            CreatePostMessageEventBus({
+                success: function () {
+                    registed = true
+                    console.log('注册成功')
+                },
+                receive: function (data) {
+                    console.log('接收到数据', data)
+                    if (data.name === 'change') {
+                        document.querySelector('#j_sum').innerText = data.sum
+                    }
+                },
+                request: function (cmd) {
+                    console.log('要求派发事件', cmd)
+                },
+                on: ['change']
+            })
+        </script>
+</body>
+</html>
