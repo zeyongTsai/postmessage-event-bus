@@ -13,11 +13,11 @@ event bus based on post message
 ```javascript
 npm i postmessage-event-bus
 ```
-   1. es6 modules
+   1-1. es6 modules
    ```javascript
    import { CreatePostMessageEventBus } from 'postmessage-event-bus'
    ```
-   2. cmd
+   1-2. cmd
    ```javascript
    require('postmessage-event-bus')
    ```
