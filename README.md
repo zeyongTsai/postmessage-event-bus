@@ -9,10 +9,20 @@ event bus based on post message
 # Usage
 
 ## Install
-1. ```npm i postmessage-event-bus```
-  1. ```import { CreatePostMessageEventBus } from 'postmessage-event-bus'```
-  2. ```require('postmessage-event-bus')```
-2. 
+1. npm
+```javascript
+npm i postmessage-event-bus
+```
+   1. es6 modules
+   ```javascript
+   import { CreatePostMessageEventBus } from 'postmessage-event-bus'
+   ```
+   2. cmd
+   ```javascript
+   require('postmessage-event-bus')
+   ```
+
+2. umd
 ```html
 <script src="https://unpkg.com/postmessage-event-bus@0.0.2/eventBus.min.js"></script>
 ```
