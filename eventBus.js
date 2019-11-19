@@ -57,7 +57,15 @@
             switch (event.data.type) {
                 case 'REGISTER':
                     // 0 收集窗口
-                    this.sources.push(new FrameSource(event.data.data.eventNames, event.origin, event.source))
+                    // 如果是已经存在的窗口，只更新eventNames
+                    var isExists = this.sources.find(function(frameSource){
+                        return frameSource.source === event.source
+                    })
+                    if (isExists) {
+                        isExists.eventNames = event.data.data.eventNames
+                    } else {
+                        this.sources.push(new FrameSource(event.data.data.eventNames, event.origin, event.source))
+                    }
                     // 1 反馈注册成功
                     this.postMessageCenter.send(event.source,new this.postMessageCenter.EventData('REGISTER-SUCCESS'))
                     // 2 通过子窗口其感兴趣的事件来通知各个其他窗口再次派发对应事件
@@ -74,21 +82,30 @@
                     var eventName = event.data.data.name
                     this.sources.forEach(function (source) {
                         if (source.eventNames.on.indexOf(eventName) > -1) {
-                            that.postMessageCenter.send(source.source, event.data)
+                            // 如果目标窗口就是root，不能继续postmessage，否则会引起循环
+                            if (source.source === window) {
+                                handleData(event)
+                            } else {
+                                that.postMessageCenter.send(source.source, event.data)
+                            }
                         }
                     })
                     break;
             }
         } else {
+            handleData(event)
+        }
+
+        function handleData (event) {
             switch (event.data.type) {
                 case 'REGISTER-SUCCESS':
-                    this.options.success && typeof this.options.success === 'function' && this.options.success.call(this)
+                    that.options.success && typeof that.options.success === 'function' && that.options.success.call(that)
                     break;
                 case 'PUSH':
-                    this.options.receive && typeof this.options.receive === 'function' && this.options.receive.call(this, event.data.data)
+                    that.options.receive && typeof that.options.receive === 'function' && that.options.receive.call(that, event.data.data)
                     break;
                 case 'EMIT':
-                    this.options.request && typeof this.options.request === 'function' && this.options.request.call(this, event.data.data)
+                    that.options.request && typeof that.options.request === 'function' && that.options.request.call(that, event.data.data)
             }
         }
     }
@@ -133,8 +150,6 @@
 
     // 窗口源类
     function FrameSource (eventNames, origin, source) {
-        eventNames.on = eventNames.on || []
-        eventNames.emit = eventNames.emit || []
         this.eventNames = eventNames
         this.origin = origin
         this.source = source

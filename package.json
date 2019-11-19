@@ -1,6 +1,6 @@
 {
   "name": "postmessage-event-bus",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "event bus based on post message",
   "main": "eventBus.js",
   "repository": {
@@ -18,7 +18,7 @@
   ],
   "author": "zeyong.tsai",
   "license": "MIT",
-  "dependencies": {
+  "devDependencies": {
     "uglify-js": "^3.6.9"
   }
 }

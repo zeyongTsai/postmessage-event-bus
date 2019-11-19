@@ -25,10 +25,18 @@
             },
             receive: function (data) {
                 console.log('接收到数据', data)
+                if (data.name === 'root_get-frames-count') {
+                    this.send({
+                        name: 'root_frames-count',
+                        count: window.frames.length
+                    })
+                }
             },
             request: function (cmd) {
                 console.log('要求派发事件', cmd)
-            }
+            },
+            on: ['root_get-frames-count'],
+            emit: ['root_frames-count']
         })
 
 

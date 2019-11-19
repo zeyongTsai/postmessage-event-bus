@@ -15,6 +15,9 @@
     <div>
         dynamic load page and get data from other page: <span id="j_sum"></span>
     </div>
+    <div>
+        root frames count: <span id="j_count"></span>
+    </div>
         <script src="./eventBus.js"></script>
         <script>
             var registed = false
@@ -22,17 +25,22 @@
                 success: function () {
                     registed = true
                     console.log('注册成功')
+                    this.send({
+                        name: 'root_get-frames-count'
+                    })
                 },
                 receive: function (data) {
                     console.log('接收到数据', data)
                     if (data.name === 'change') {
                         document.querySelector('#j_sum').innerText = data.sum
+                    } else if (data.name === 'root_frames-count') {
+                        document.querySelector('#j_count').innerText = data.count
                     }
                 },
                 request: function (cmd) {
                     console.log('要求派发事件', cmd)
                 },
-                on: ['change']
+                on: ['change','root_frames-count']
             })
         </script>
 </body>
