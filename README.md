@@ -4,11 +4,9 @@
  * @Description: readme
  -->
 # postmessage-event-bus
----
 event bus based on post message
 
 # Usage
----
 ## Install
 
 ### npm
@@ -19,7 +17,6 @@ npm i postmessage-event-bus
 ```javascript
 import { CreatePostMessageEventBus } from 'postmessage-event-bus'
 ```
----
 ##### cmd
 ```javascript
 require('postmessage-event-bus')
