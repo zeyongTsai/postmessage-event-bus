@@ -4,32 +4,35 @@
  * @Description: readme
  -->
 # postmessage-event-bus
+---
 event bus based on post message
 
 # Usage
-
+---
 ## Install
-1. npm
+
+### npm
 ```javascript
 npm i postmessage-event-bus
 ```
-   1-1. es6 modules
-   ```javascript
-   import { CreatePostMessageEventBus } from 'postmessage-event-bus'
-   ```
-   1-2. cmd
-   ```javascript
-   require('postmessage-event-bus')
-   ```
+##### es6 modules
+```javascript
+import { CreatePostMessageEventBus } from 'postmessage-event-bus'
+```
+---
+##### cmd
+```javascript
+require('postmessage-event-bus')
+```
 
-2. umd
+### umd
 ```html
 <script src="https://unpkg.com/postmessage-event-bus@0.0.2/eventBus.min.js"></script>
 ```
 
 ## API
 ```javascript
-CreatePostMessageEventBus({
+let pmeb = CreatePostMessageEventBus({
     success: function () {
         console.log('registry successed')
     },
@@ -44,8 +47,20 @@ CreatePostMessageEventBus({
             ... // other values
         })
     },
-    on: ['increase', 'decrease'], // events that u wanna listen
-    emit: ['change'] // events that u will dispatch
+    // events that u wanna listen
+    on: ['increase', 'decrease'],
+    // events that u will dispatch
+    // this is for auto dispatch events for some pages that listening thoes events
+    // otherwise they would notify current page manually
+    // eg:
+    // after initialized or success callback in other window
+    // pmeb.send({name: 'change'})
+    emit: ['change']
+})
+
+pmeb.send({
+    name: 'otherEvent', // u can dispatch event that not specified in emit params
+    data: { ... }
 })
 ```
 
